@@ -1,0 +1,8 @@
+{
+  "name": "Remix 국민기초생활수급자 모의계산 및 자격판정기",
+  "description": "국민기초생활보장 및 의료급여 사업안내 지침 기반 소득인정액 모의 계산 및 생계·의료·주거·교육급여 자격 판정 상담 웹 앱",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
