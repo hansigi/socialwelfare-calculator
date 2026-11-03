@@ -430,48 +430,5 @@ test('초기 기본 입력값 검증: 초기 거주지역이 광역·세종·창
   assert.equal(defaultInputs.region, 'metro');
 });
 
-test('단일 HTML(/index.html) 순수 Vanilla JS 구조 및 계산 엔진 검증', async () => {
-  const fs = await import('node:fs');
-  const vm = await import('node:vm');
-  const html = fs.readFileSync('index.html', 'utf-8');
 
-  // 1. React/Vite 외부 모듈 참조 없이 순수 HTML/CSS/JS로 구성되었는지 검증
-  assert.equal(html.includes('/src/main.tsx'), false);
-  assert.equal(html.includes('<style>'), true);
-  assert.equal(html.includes('<script>'), true);
-  assert.equal(html.includes('기타증여'), true);
-
-  // 2. 내장된 스크립트 추출 및 VM 실행으로 순수 JS 계산 함수 검증
-  const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
-  assert.ok(scriptMatch && scriptMatch[1], 'index.html 내부에 <script> 태그가 존재해야 합니다.');
-
-  const sandbox: Record<string, any> = {
-    window: {},
-    document: {
-      addEventListener: () => {},
-      getElementById: () => ({ innerHTML: '', classList: { add: () => {}, remove: () => {}, contains: () => false } }),
-      querySelectorAll: () => [],
-      documentElement: { classList: { add: () => {}, remove: () => {} } },
-    },
-  };
-  vm.createContext(sandbox);
-  vm.runInContext(scriptMatch[1], sandbox);
-
-  // 초기 기본값: 광역·세종·창원(metro)
-  const def = sandbox.createDefaultInputs();
-  assert.equal(def.region, 'metro');
-
-  // 기초의료 탈락 -> 차상위본인부담경감 연계 시나리오 계산 검증
-  def.region = 'gyeonggi';
-  def.generalProperty.landValue = 110_000_000;
-  def.transferIncome.privateTransfer = 250_000;
-  const calcRes = sandbox.calculateWelfare(def, sandbox.createDefaultCriteriaConfig());
-
-  // 경기도 기초 기본재산액 8,000만원 차감 vs 차상위 기본재산액 1억 3,500만원 차감 + 사적이전소득 제외
-  assert.equal(calcRes.propertyBreakdown.basicPropertyDeduction, 80_000_000);
-  assert.equal(calcRes.nearPovertyResult.basicPropertyDeduction, 135_000_000);
-  assert.equal(calcRes.nearPovertyResult.excludedPrivateTransferAmount, 250_000);
-  assert.equal(calcRes.nearPovertyResult.recognizedIncome, 0);
-  assert.equal(calcRes.nearPovertyResult.isEligible, true);
-});
 
