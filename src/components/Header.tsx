@@ -13,6 +13,7 @@ import {
   BookOpen,
   Type,
 } from 'lucide-react';
+import { NoticeTopBanner } from './NoticeTopBanner';
 
 interface HeaderProps {
   onReset: () => void;
@@ -178,6 +179,9 @@ export const Header: React.FC<HeaderProps> = ({
             ⑤ 기초의료 탈락 ➔ 차상위경감 연계(만성질환·재산1.1억)
           </button>
         </div>
+
+        {/* 3단: 상단고정 법정 유의사항 배너 */}
+        <NoticeTopBanner />
       </div>
     </header>
   );
