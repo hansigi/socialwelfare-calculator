@@ -18,6 +18,7 @@ import { NearPovertySection } from './components/NearPovertySection';
 import { ResultsDashboard } from './components/ResultsDashboard';
 import { CriteriaSettingsModal } from './components/CriteriaSettingsModal';
 import { CalculationProcessExplainer } from './components/CalculationProcessExplainer';
+import { NoticeBanner } from './components/NoticeBanner';
 import { PrintableReport } from './components/PrintableReport';
 
 export default function App() {
@@ -278,7 +279,10 @@ export default function App() {
           onApplyPreset={handleApplyPreset}
         />
 
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 space-y-6">
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-6 pb-12">
+          {/* 상단 고정 유의사항 배너 */}
+          <NoticeBanner />
+
           {/* Section 1: 기본 정보 */}
           <BasicInfoSection
             inputs={inputs}
