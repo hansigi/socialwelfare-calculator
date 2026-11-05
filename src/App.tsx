@@ -18,7 +18,7 @@ import { NearPovertySection } from './components/NearPovertySection';
 import { ResultsDashboard } from './components/ResultsDashboard';
 import { CriteriaSettingsModal } from './components/CriteriaSettingsModal';
 import { CalculationProcessExplainer } from './components/CalculationProcessExplainer';
-import { NoticeBanner } from './components/NoticeBanner';
+import { NoticeFooter } from './components/NoticeFooter';
 import { PrintableReport } from './components/PrintableReport';
 
 export default function App() {
@@ -279,10 +279,7 @@ export default function App() {
           onApplyPreset={handleApplyPreset}
         />
 
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-6 pb-12">
-          {/* 상단 고정 유의사항 배너 */}
-          <NoticeBanner />
-
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
           {/* Section 1: 기본 정보 */}
           <BasicInfoSection
             inputs={inputs}
@@ -311,6 +308,9 @@ export default function App() {
           />
         </main>
       </div>
+
+      {/* Section 6: 법정 고정 유의사항 박스 */}
+      <NoticeFooter />
 
       {/* 급여별·가구원수별 선정기준 수정 모달 */}
       <CriteriaSettingsModal
